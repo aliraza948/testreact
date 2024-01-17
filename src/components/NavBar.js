@@ -1,37 +1,130 @@
 import React,{useState} from "react";
+import logo from "../data/img/fav.png"
+import $ from "jquery"
+import 'jquery-ui/ui/effects/effect-slide'
+import {FaHome,FaBoxOpen, FaRegEnvelopeOpen, FaUserAlt} from "react-icons/fa" 
+import {LuSettings2} from "react-icons/lu" 
+//import { Route,Routes,BrowserRouter } from "react-router-dom";
 //import PropTypes from 'prop-types'
 
-function MsgChecker(props){
-    const [text,setT]=useState("number")
-    const update=(e)=>{
-      setT(e.target.value);
+class SideBarContentController extends React.Component{
+  constructor(props){
+    super(props)
+    this.iconClass="py-3 flex pl-2"
+    //this.sideMenuActive=""
+    //this.sideMenuActive="home"
+    this.sideMenuActive="home"
+    this.ActiveClass="bg-white text-zinc-900"
+   
+  }
+  render(){
+    const handleClick=(e)=>{
+    this.sideMenuActive=e
+    this.setState({})
+  }
+  this.isThereContent=this.props.haveContent
+    this.fontStyle={"font-size":"20px"}
+    this.StyleForIcon=this.isThereContent?{"font-size":"14px","padding-left":"5px"}:{};
+    this.isEnableSidebar=true
+    this.home=this.isThereContent?" Home":""
+    this.openbox=this.isThereContent?" Order":""
+    this.envelop=this.isThereContent?" Message":""
+    this.setting=this.isThereContent?" Settings":""
+    this.User=this.isThereContent?" Profile":""
+  return(
+    
+    <>{this.isEnableSidebar?
+    <div className={` bg-zinc-900 absolute `+this.props.vis} style={{height:"100vh"}} id="sideBar" ref={this.props.fr}>
+          {this.props.content}
+    <div className="flex flex-col pt-5 text-white" >
+      {console.log(this.sideMenuActive==="home"?"bg-white":"")}
+      <div style={this.fontStyle} className={this.iconClass+" "+(this.sideMenuActive==="home"?this.ActiveClass:"")}   onClick={()=>handleClick('home')}>
+        <FaHome/>
+        <div style={this.StyleForIcon}>{this.home}</div>
+      </div>
+      <div style={this.fontStyle} className={this.iconClass+" "+(this.sideMenuActive==="order"?this.ActiveClass:"")}   onClick={()=>handleClick('order')}>
+        <FaBoxOpen/>
+        <div style={this.StyleForIcon}>{this.openbox}</div>
+        
+      </div>
+      <div style={this.fontStyle} className={this.iconClass+" "+(this.sideMenuActive==="message"?this.ActiveClass:"")}   onClick={()=>handleClick('message')}>
+        <FaRegEnvelopeOpen/>
+        <div style={this.StyleForIcon}>{this.envelop}</div>
+      </div>
+      <div style={this.fontStyle} className={this.iconClass+" "+(this.sideMenuActive==="settings"?this.ActiveClass:"")}   onClick={()=>handleClick('settings')}>
+        <LuSettings2/>
+        <div style={this.StyleForIcon}>
+        {this.setting}
+        </div>
+        
+      </div>
+      <div style={this.fontStyle} className={this.iconClass+" "+(this.sideMenuActive==="profile"?this.ActiveClass:"")}   onClick={()=>handleClick('profile')}>
+        <FaUserAlt/>
+        <div style={this.StyleForIcon}>{this.User}</div>   
+      </div>
+
+    </div></div>:""}
+    </>
+  )
+}}
+/*function SideBar(props){
+    return(
+        <div className={`px-2 bg-zinc-900 `+props.vis} style={{height:"100vh"}} id="sideBar" ref={props.fr}>
+          {props.content}
+        </div>
+    )}*/
+class NavBar extends React.Component {
+  constructor(props){
+    super(props)
+    this.refSideBar=React.createRef()
+    this.iconOf=React.createRef()
+    this.visble="visible"
+    this.visibleSideBar="visible"
+    this.isMin=false
+    this.vir="v"
+    if(this.isMin){
+      this.visibleSideBar="visible w-32"
+
+    }else if(!this.isMin){
+      this.visibleSideBar="visible w-10"
     }
-    return(
+    }
+    render (){
+      const toggleVisibleOfSidebar=()=>{
+        if(this.isMin){
+          this.visibleSideBar="visible w-10"
+          this.vir="s"
+          this.isMin=false
+        }else if(!this.isMin){
+          this.visibleSideBar="visible w-32"
+          this.vir="v"
+          this.isMin=true
+        }
+        this.setState({})
+   
+      }
+      return(
         <>
-        <h1>{props.heading}</h1>
-        <textarea name="ali" id="" cols="30" rows="8" onChange={update} value="ali"></textarea>
-        <button>Click Me Now!</button>
-        <p>{text}</p>
-        <p className="py-3 bg-purple-600 text-white">{text.length} Character {text.split(" ").length} words</p>
+          <nav className="bg-zinc-900 flex justify-between">
+          
+          <img src={logo} alt="" className="w-14 ml-2" onClick={toggleVisibleOfSidebar} ref={this.iconOf}/>
+          {/*<div className="flex"><input type="text" className='ml-4 rounded-l-sm p-1'/><button type='button' className='text-white rounded-r-sm bg-gradient-to-t from-zinc-700 via-zinc-900 to-zinc-700 px-4'>Press it</button> </div>*/}
+          
+          <div className={'flex justify-end '}>
+          <ul className="flex space-x-10 text-slate-100 pr-4 py-3">
+          <a href="/">Home</a>
+          <a href="/contact"> contact</a>
+          <a href="/about"> about</a>
+          
+          </ul>           
+          </div>
+         </nav>
+         <SideBarContentController vis={this.visibleSideBar} fr={this.refSideBar} haveContent={this.isMin}/>
         </>
-    );
-}
-function AboutUs(){
-    return(
-        <>
-        <h1>Ali</h1>
-        <p>So, Now you will know about my and my ability knowledge so just come Here</p>
-        </>
-    )
-}
-function ContactUs(){
-    return(
-        <>
-        <h1>Phone</h1>
-        <p>Our phone number will be privately</p>
-        </>
-    )
-}
+      )
+    };
+  }
+
 
 /*NavBar.propTypes={
     btntext : PropTypes.string,
@@ -39,4 +132,4 @@ function ContactUs(){
 NavBar.defaultProps={
     btntext : "Cookie"
 }*/
-export {MsgChecker,ContactUs,AboutUs}
+export {NavBar}
