@@ -25,7 +25,7 @@ class SideBarContentController extends React.Component{
   this.isThereContent=this.props.haveContent
     this.fontStyle={"font-size":"20px"}
     this.StyleForIcon=this.isThereContent?{"font-size":"14px","padding-left":"5px"}:{};
-    this.isEnableSidebar=false
+    this.isEnableSidebar=this.props.isEnableSidebar
     this.home=this.isThereContent?" Home":""
     this.openbox=this.isThereContent?" Order":""
     this.envelop=this.isThereContent?" Message":""
@@ -89,6 +89,9 @@ class NavBar extends React.Component {
       this.visibleSideBar="visible w-10"
     }
     }
+    static defaultProps= {
+      isEnableSidebar:false
+    }
     render (){
       const toggleVisibleOfSidebar=()=>{
         if(this.isMin){
@@ -103,6 +106,7 @@ class NavBar extends React.Component {
         this.setState({})
    
       }
+      this.isEnableSidebar=this.props.isEnableSidebar
       return(
         <>
           <nav className="bg-zinc-900 flex justify-between">
@@ -110,12 +114,11 @@ class NavBar extends React.Component {
           <img src={logo} alt="" className="w-14 ml-2" onClick={toggleVisibleOfSidebar} ref={this.iconOf}/>
           {/*<div className="flex"><input type="text" className='ml-4 rounded-l-sm p-1'/><button type='button' className='text-white rounded-r-sm bg-gradient-to-t from-zinc-700 via-zinc-900 to-zinc-700 px-4'>Press it</button> </div>*/}
          </nav>
-         <SideBarContentController vis={this.visibleSideBar} fr={this.refSideBar} haveContent={this.isMin}/>
+         <SideBarContentController vis={this.visibleSideBar} fr={this.refSideBar} haveContent={this.isMin} isEnableSidebar={this.isEnableSidebar}/>
         </>
       )
     };
   }
-
 
 /*NavBar.propTypes={
     btntext : PropTypes.string,

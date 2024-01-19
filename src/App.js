@@ -10,7 +10,7 @@ import {
 function App() {
   return (
     <>
-      <NavBar></NavBar>
+      <NavBar isEnableSidebar={true}></NavBar>
       <Home></Home>
    </>
   );
