@@ -1,7 +1,7 @@
 import React,{useState} from "react";
 import logo from "../data/img/fav.png"
-import $ from "jquery"
 import 'jquery-ui/ui/effects/effect-slide'
+import $ from "jquery"
 import {FaHome,FaBoxOpen, FaRegEnvelopeOpen, FaUserAlt} from "react-icons/fa" 
 import {LuSettings2} from "react-icons/lu" 
 //import { Route,Routes,BrowserRouter } from "react-router-dom";
@@ -15,6 +15,7 @@ class SideBarContentController extends React.Component{
     //this.sideMenuActive="home"
     this.sideMenuActive="home"
     this.ActiveClass="bg-white text-zinc-900"
+    this.isHandler=false
    
   }
   render(){
@@ -31,13 +32,31 @@ class SideBarContentController extends React.Component{
     this.envelop=this.isThereContent?" Message":""
     this.setting=this.isThereContent?" Settings":""
     this.User=this.isThereContent?" Profile":""
+    this.SideBarHeight="200vh"
+    const sizeController=()=>{}
+    if(window.innerWidth>690 && window.innerWidth<760){
+      this.SideBarHeight="70rem"
+
+    }else if(760<window.innerWidth && 1200>window.innerWidth){
+      this.SideBarHeight="100rem"
+    }
+    else if(767<window.innerWidth && 1200>window.innerWidth){
+      this.SideBarHeight="100rem"
+    }
+    else if(1200<window.innerWidth){
+      this.SideBarHeight="75rem"
+    }
+    if(!this.isHandler){
+      window.addEventListener('resize',sizeController)
+      this.isHandler=true
+    }
+    sizeController()
   return(
     
     <>{this.isEnableSidebar?
-    <div className={` bg-zinc-900 absolute `+this.props.vis} style={{height:"100vh"}} id="sideBar" ref={this.props.fr}>
+    <div className={` bg-zinc-900 absolute `+this.props.vis} style={{height:this.SideBarHeight}} id="sideBar" ref={this.props.fr}>
           {this.props.content}
     <div className="flex flex-col pt-5 text-white" >
-      {console.log(this.sideMenuActive==="home"?"bg-white":"")}
       <div style={this.fontStyle} className={this.iconClass+" "+(this.sideMenuActive==="home"?this.ActiveClass:"")}   onClick={()=>handleClick('home')}>
         <FaHome/>
         <div style={this.StyleForIcon}>{this.home}</div>
