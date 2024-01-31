@@ -5,10 +5,11 @@ import {
   BrowserRouter,
 } from "react-router-dom";
 import Message from './components/Message';
+import Main from './components/Main'
 function App() {
   return (
     <>
-      <Message></Message>
+      <Main></Main>
    </>
   );
 }
